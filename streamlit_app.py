@@ -11,8 +11,8 @@ uploaded_file = st.file_uploader("Upload your Excel input (.xlsx)", type=['xlsx'
 if uploaded_file:
     with st.spinner('Parsing Excel data...'):
         try:
-            # Convert the uploaded data into a format your script can read
-            # This fixes the "File is not a zip file" error
+            # FIX: Wrap the uploaded file in BytesIO so zipfile can read it
+            # This converts the upload into a "virtual file" in memory
             input_data = io.BytesIO(uploaded_file.read())
             
             # Call your actual function from src/parse_xlsx.py
@@ -20,9 +20,10 @@ if uploaded_file:
             
             if result_data:
                 st.success("File parsed successfully!")
+                st.write("### Preview of Parsed Data:")
                 st.json(result_data[:2]) # Preview first 2 records
 
-                # Convert the Python list/dict to a string for download
+                # Convert the Python result to a string for download
                 output_string = json.dumps(result_data, indent=4)
                 
                 st.download_button(
