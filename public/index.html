@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EDI 834 Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; background: #f7f8fa; }
+    .card { background: #fff; padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,.08); }
+    label { display:block; font-weight: 600; margin-top: .5rem; }
+    input, button { margin-top: .25rem; padding: .5rem; width: 100%; max-width: 640px; }
+    button { cursor: pointer; background: #0b5fff; color: #fff; border: none; border-radius: 6px; }
+    pre { background: #111; color: #b8ffb5; padding: .75rem; border-radius: 6px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>HIPAA 5010 EDI 834 Generator</h1>
+
+  <div class="card">
+    <h2>Generate from Excel Path</h2>
+    <label for="excelPath">Excel Path (.xlsx or .csv)</label>
+    <input id="excelPath" placeholder="/workspace/EDI--File-Creator-CODEX/samples/enrollment_input.csv" />
+
+    <label for="outputPath">Optional Output Path</label>
+    <input id="outputPath" placeholder="/workspace/EDI--File-Creator-CODEX/generated/output.edi" />
+
+    <button id="generatePath">Generate EDI</button>
+  </div>
+
+  <div class="card">
+    <h2>Result</h2>
+    <pre id="result">Waiting for generation...</pre>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

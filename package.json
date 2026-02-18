@@ -1,0 +1,14 @@
+{
+  "name": "edi-834-file-creator",
+  "version": "1.0.0",
+  "description": "Generate HIPAA 5010-compliant EDI 834 files from Excel input",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "test": "node --test",
+    "test:e2e": "node -e \"console.log('Use Playwright browser tool for e2e in this environment.')\""
+  },
+  "keywords": ["edi", "834", "hipaa", "5010", "node", "playwright"],
+  "license": "MIT"
+}
