@@ -1,29 +1,32 @@
 import streamlit as st
 import json
-import io  # Required to handle the file in memory
+import io
 from src.parse_xlsx import parse_xlsx
 
 st.set_page_config(page_title="EDI File Creator", layout="centered")
 st.title("📂 EDI File Creator Test")
 
+# File Uploader
 uploaded_file = st.file_uploader("Upload your Excel input (.xlsx)", type=['xlsx'])
 
-if uploaded_file:
+if uploaded_file is not None:
     with st.spinner('Parsing Excel data...'):
         try:
-            # FIX: Wrap the uploaded file in BytesIO so zipfile can read it
-            # This converts the upload into a "virtual file" in memory
-            input_data = io.BytesIO(uploaded_file.read())
+            # Re-reading the bytes to ensure a fresh buffer for the parser
+            file_bytes = uploaded_file.getvalue()
+            input_buffer = io.BytesIO(file_bytes)
             
-            # Call your actual function from src/parse_xlsx.py
-            result_data = parse_xlsx(input_data) 
+            # Call your function with the buffer
+            result_data = parse_xlsx(input_buffer) 
             
             if result_data:
                 st.success("File parsed successfully!")
-                st.write("### Preview of Parsed Data:")
-                st.json(result_data[:2]) # Preview first 2 records
+                
+                # Preview top 2 entries
+                st.write("### Data Preview:")
+                st.json(result_data[:2])
 
-                # Convert the Python result to a string for download
+                # Convert Python object to JSON string for download
                 output_string = json.dumps(result_data, indent=4)
                 
                 st.download_button(
@@ -33,8 +36,9 @@ if uploaded_file:
                     mime="text/plain"
                 )
             else:
-                st.warning("No data found in the file.")
+                st.warning("The parser returned no data. Check your Excel formatting.")
                 
         except Exception as e:
+            # This will show you exactly where the parser is failing
             st.error(f"Error processing file: {e}")
             
